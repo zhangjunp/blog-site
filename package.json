@@ -6,7 +6,8 @@
   "author": "zhangjp",
   "scripts": {
     "docs:dev": "vuepress dev docs",
-    "docs:build": "vuepress build docs"
+    "docs:build": "vuepress build docs",
+    "deploy": "bash deploy.sh"
   },
   "dependencies": {
     "element-ui": "^2.4.0"
