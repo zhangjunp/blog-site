@@ -1,0 +1,14 @@
+{
+  "name": "zjp-blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "zhangjp",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "dependencies": {
+    "element-ui": "^2.4.0"
+  }
+}

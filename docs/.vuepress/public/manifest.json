@@ -1,0 +1,21 @@
+{
+  "name": "zhangjp-blog",
+  "short_name": "zhangjp",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#2196f3",
+  "description": "Zhangjp的个人主页",
+  "theme_color": "blue",
+  "icons": [
+    {
+      "src": "/aoaojiao.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "web"
+    }
+  ]
+}
