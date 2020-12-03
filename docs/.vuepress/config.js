@@ -1,6 +1,8 @@
 module.exports = {
     title: 'aoaojiao.club-Blog',
     description: 'ZJP-技术文档',
+    dest: './docs/.vuepress/dist',
+    base: '/blog/',
     head: [
         ['link', { rel: 'icon', href: '/favicon.ico' }],
         ['link', { rel: 'manifest', href: '/manifest.json' }],
