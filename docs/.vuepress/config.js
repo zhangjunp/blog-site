@@ -27,6 +27,7 @@ module.exports = {
         sidebar: {
             "/java/": [
                 "",
+                "javaGenerics"
             ],
             "/web/": [
                 "",

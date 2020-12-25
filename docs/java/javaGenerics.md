@@ -17,7 +17,7 @@
 
 The following code snippet without generics requires casting:
 
-```
+```java
 List list = new ArrayList();
 list.add("hello");
 String s = (String) list.get(0);
@@ -43,7 +43,7 @@ String s = list.get(0);   // no cast
 
 #### 如何使用泛型？
 
-```
+```java
 // 我们创建一个盒子类，里面可以放置任何类型的东西
 public class Box {
     private Object object;
@@ -79,7 +79,7 @@ public class Box<T> {
 
 ##### 泛型方法
 
-```
+```java
 public class Util {
 		// 泛型方法
     public static <K, V> boolean compare(Pair<K, V> p1, Pair<K, V> p2) {
@@ -116,7 +116,7 @@ boolean same = Util.compare(p1, p2);
 
 ​		泛型使用中，可以限定泛型的范围
 
-```
+```java
 // 这个类型对象，内部只想存放Integer类型的，此时编译后，取得是Integer类型
 public class NaturalNumber<T extends Integer> { .....}
 
@@ -130,7 +130,7 @@ public class NaturalNumber<T extends Integer> { .....}
 
 
 
-```
+```java
 // 上界通配符
 public static void process(List<? extends Foo> list) { /* ... */ }
 
@@ -162,7 +162,7 @@ public static void addNumbers(List<? super Integer> list) {
 
 下边来介绍一下什么是必要时插入类型转换，首先先了解一下什么是类型擦除
 
-```
+```java
 // 我们定义了一个泛型类 Pair
 public class Pair<T> {
     private T first;
@@ -248,86 +248,88 @@ public class com.zhangjp.base.oo.genericParam.Pair<T> {
 
 `javac genericParam/Pair.java genericParam/PairTest.java` 
 
-    public class PairTest {
-    
-        public static void testPair() {
-            Pair<String> pair = new Pair<>();
-            pair.setFirst("Bob");
-            pair.setSecond("Ed");
-    
-            String first = pair.getFirst();
-            String second = pair.getSecond();
-    
-            System.out.println("pair1: " + pair);
-            System.out.println("first: " + first);
-            System.out.println("second: " + second);
-        }
+```java
+public class PairTest {
+
+    public static void testPair() {
+        Pair<String> pair = new Pair<>();
+        pair.setFirst("Bob");
+        pair.setSecond("Ed");
+
+        String first = pair.getFirst();
+        String second = pair.getSecond();
+
+        System.out.println("pair1: " + pair);
+        System.out.println("first: " + first);
+        System.out.println("second: " + second);
     }
-    
-    // class文件反编译后，可以看到其实真是类型还是Object，那我们声明的String类型在获取的时候是怎么获取到的呢？
-    //  24: checkcast     #9                  // class java/lang/String   重点关注这一行
-    // 这个就是官方文档上所说的   必要时插入**类型转换**，以保持类型安全。
-    zhangjunpingdeMacBook-Pro:oo zhangjunping$ javap -c genericParam/PairTest.class 
-    Compiled from "PairTest.java"
-    public class com.zhangjp.base.oo.genericParam.PairTest {
-      public com.zhangjp.base.oo.genericParam.PairTest();
-        Code:
-           0: aload_0
-           1: invokespecial #1                  // Method java/lang/Object."<init>":()V
-           4: return
-    
-      public static void testPair();
-        Code:
-           0: new           #2                  // class com/zhangjp/base/oo/genericParam/Pair
-           3: dup
-           4: invokespecial #3                  // Method com/zhangjp/base/oo/genericParam/Pair."<init>":()V
-           7: astore_0
-           8: aload_0
-           9: ldc           #4                  // String Bob
-          11: invokevirtual #5                  // Method com/zhangjp/base/oo/genericParam/Pair.setFirst:(Ljava/lang/Object;)V
-          14: aload_0
-          15: ldc           #6                  // String Ed
-          17: invokevirtual #7                  // Method com/zhangjp/base/oo/genericParam/Pair.setSecond:(Ljava/lang/Object;)V
-          20: aload_0
-          21: invokevirtual #8                  // Method com/zhangjp/base/oo/genericParam/Pair.getFirst:()Ljava/lang/Object;
-          24: checkcast     #9                  // class java/lang/String
-          27: astore_1
-          28: aload_0
-          29: invokevirtual #10                 // Method com/zhangjp/base/oo/genericParam/Pair.getSecond:()Ljava/lang/Object;
-          32: checkcast     #9                  // class java/lang/String
-          35: astore_2
-          36: getstatic     #11                 // Field java/lang/System.out:Ljava/io/PrintStream;
-          39: new           #12                 // class java/lang/StringBuilder
-          42: dup
-          43: invokespecial #13                 // Method java/lang/StringBuilder."<init>":()V
-          46: ldc           #14                 // String pair1:
-          48: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-          51: aload_0
-          52: invokevirtual #16                 // Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
-          55: invokevirtual #17                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
-          58: invokevirtual #18                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-          61: getstatic     #11                 // Field java/lang/System.out:Ljava/io/PrintStream;
-          64: new           #12                 // class java/lang/StringBuilder
-          67: dup
-          68: invokespecial #13                 // Method java/lang/StringBuilder."<init>":()V
-          71: ldc           #19                 // String first:
-          73: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-          76: aload_1
-          77: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-          80: invokevirtual #17                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
-          83: invokevirtual #18                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-          86: getstatic     #11                 // Field java/lang/System.out:Ljava/io/PrintStream;
-          89: new           #12                 // class java/lang/StringBuilder
-          92: dup
-          93: invokespecial #13                 // Method java/lang/StringBuilder."<init>":()V
-          96: ldc           #20                 // String second:
-          98: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-         101: aload_2
-         102: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
-         105: invokevirtual #17                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
-         108: invokevirtual #18                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-         111: return
-    }
+}
+
+// class文件反编译后，可以看到其实真是类型还是Object，那我们声明的String类型在获取的时候是怎么获取到的呢？
+//  24: checkcast     #9                  // class java/lang/String   重点关注这一行
+// 这个就是官方文档上所说的   必要时插入**类型转换**，以保持类型安全。
+zhangjunpingdeMacBook-Pro:oo zhangjunping$ javap -c genericParam/PairTest.class 
+Compiled from "PairTest.java"
+public class com.zhangjp.base.oo.genericParam.PairTest {
+  public com.zhangjp.base.oo.genericParam.PairTest();
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+
+  public static void testPair();
+    Code:
+       0: new           #2                  // class com/zhangjp/base/oo/genericParam/Pair
+       3: dup
+       4: invokespecial #3                  // Method com/zhangjp/base/oo/genericParam/Pair."<init>":()V
+       7: astore_0
+       8: aload_0
+       9: ldc           #4                  // String Bob
+      11: invokevirtual #5                  // Method com/zhangjp/base/oo/genericParam/Pair.setFirst:(Ljava/lang/Object;)V
+      14: aload_0
+      15: ldc           #6                  // String Ed
+      17: invokevirtual #7                  // Method com/zhangjp/base/oo/genericParam/Pair.setSecond:(Ljava/lang/Object;)V
+      20: aload_0
+      21: invokevirtual #8                  // Method com/zhangjp/base/oo/genericParam/Pair.getFirst:()Ljava/lang/Object;
+      24: checkcast     #9                  // class java/lang/String
+      27: astore_1
+      28: aload_0
+      29: invokevirtual #10                 // Method com/zhangjp/base/oo/genericParam/Pair.getSecond:()Ljava/lang/Object;
+      32: checkcast     #9                  // class java/lang/String
+      35: astore_2
+      36: getstatic     #11                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      39: new           #12                 // class java/lang/StringBuilder
+      42: dup
+      43: invokespecial #13                 // Method java/lang/StringBuilder."<init>":()V
+      46: ldc           #14                 // String pair1:
+      48: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      51: aload_0
+      52: invokevirtual #16                 // Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+      55: invokevirtual #17                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      58: invokevirtual #18                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      61: getstatic     #11                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      64: new           #12                 // class java/lang/StringBuilder
+      67: dup
+      68: invokespecial #13                 // Method java/lang/StringBuilder."<init>":()V
+      71: ldc           #19                 // String first:
+      73: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      76: aload_1
+      77: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      80: invokevirtual #17                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      83: invokevirtual #18                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+      86: getstatic     #11                 // Field java/lang/System.out:Ljava/io/PrintStream;
+      89: new           #12                 // class java/lang/StringBuilder
+      92: dup
+      93: invokespecial #13                 // Method java/lang/StringBuilder."<init>":()V
+      96: ldc           #20                 // String second:
+      98: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     101: aload_2
+     102: invokevirtual #15                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+     105: invokevirtual #17                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+     108: invokevirtual #18                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+     111: return
+}
+```
 
 
 好了，了解完什么是**类型擦除**   以及  **类型转换**
@@ -338,20 +340,23 @@ public class com.zhangjp.base.oo.genericParam.Pair<T> {
 
 ##### 类型擦除与多态冲突以及桥连方法
 
-	    // 当一个类继承泛型类时，针对泛型方法重写时
-	    public class NumPair extends Pair<Integer> {   
-	    
-	      @Override     
-	      public void setFirst(Integer first) {    
-	      	System.out.println("call setFirst Method of NumPair"); 
-	      }  
-	      
-	    }
-	    
-	// 首先要明确，重写时发生在父子类中，子类重写父类方法，前提是参数和返回值，方法名要一致，这种行为又是我们常说的多态
-	// 按照我们上述分析 Pair 这个父类编译后字节码中的方法入参是 Object类型，现在重写我们的入参是Integer类型，从现象上看泛型擦与多态冲突了
-	    
-	    
-	
-  	  // 本质上其实并没有，当我们反编译NumPair类时，编译器不仅生成我们所提供的setFirst(Integer first)方法，还帮我们自动生成了一个签名为setFirst(Object first)的新方法；确实是由于类型擦除的原因，导致我们重写方法与父类方法在编译之后出现了签名不一致的情况。**编译器为了解决这个冲突，使得多态特性不被破坏。其会自动生成一个与父类签名一致的方法setFirst(Object first)，并在其内部去调用我们期望的setFirst(Integer first)方法**。由于这个编译器自动生成的方法，一方面是负责来实际重写父类方法的，另一方面则是为了调用开发者实际提供的重写方法，故其被形象地称之为**Bridge Method 桥链方法**
+```java
+    // 当一个类继承泛型类时，针对泛型方法重写时
+    public class NumPair extends Pair<Integer> {   
+    
+      @Override     
+      public void setFirst(Integer first) {    
+      	System.out.println("call setFirst Method of NumPair"); 
+      }  
+      
+    }
+    
+// 首先要明确，重写时发生在父子类中，子类重写父类方法，前提是参数和返回值，方法名要一致，这种行为又是我们常说的多态
+// 按照我们上述分析 Pair 这个父类编译后字节码中的方法入参是 Object类型，现在重写我们的入参是Integer类型，从现象上看泛型擦与多态冲突了
+```
+
+​	    
+
+​			总结：本质上其实并没有，当我们反编译NumPair类时，编译器不仅生成我们所提供的setFirst(Integer first)方法，还帮我们自动生成了一个签名为setFirst(Object first)的新方法；确实是由于类型擦除的原因，导致我们重写方法与父类方法在编译之后出现了签名不一致的情况。**编译器为了解决这个冲突，使得多态特性不被破坏。其会自动生成一个与父类签名一致的方法setFirst(Object first)，并在其内部去调用我们期望的setFirst(Integer first)方法**。由于这个编译器自动生成的方法，一方面是负责来实际重写父类方法的，另一方面则是为了调用开发者实际提供的重写方法，故其被形象地称之为**Bridge Method 桥链方法**
+
 
