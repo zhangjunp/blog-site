@@ -27,7 +27,8 @@ module.exports = {
         sidebar: {
             "/java/": [
                 "",
-                "javaGenerics"
+                "javaGenerics",
+                "annotation"
             ],
             "/web/": [
                 "",
