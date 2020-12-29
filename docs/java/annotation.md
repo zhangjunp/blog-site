@@ -203,7 +203,7 @@ public @interface Schedules {
 
 #### 总结
 
-​   注释（annotations）：Java 从1.5开始bai提供了 Annotation （注释，标注），它用来修饰应用程序的元素（类，方法，参数，本地变量，包、元数据），编译器将其与元数据一同存储在 class 文件中，
+​   注释（annotations）：Java 从1.5开始提供了 Annotation （注释，标注），它用来修饰应用程序的元素（类，方法，参数，本地变量，包、元数据），编译器将其与元数据一同存储在 class 文件中，
    运行期间通过 Java 的反射来处理对其修饰元素的访问。Annotation 仅仅用来修饰元素，而不能影响代码的执行。只有通过其配套的框架或工具才能对其信息进行访问和处理。
     
    而@interface 是用来修饰 Annotation 的，请注意，它不是 interface。这个关键字声明隐含了一个信息：它是继承了 java.lang.annotation.Annotation 接口，而不是声明了一个 interface。
