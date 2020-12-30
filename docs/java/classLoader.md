@@ -12,7 +12,7 @@
 
 
 
-<img src="./classLoaderLife.png" alt="image-20201229090839862" style="zoom:30%;" />
+<img src="./classLoaderLife.png" alt="image-20201229090839862" style="zoom:0%;" />
 
 这些阶段通常都 是互相交叉地混合进行的，会在一个阶段执行的过程中调用、激活另一个阶段。 
 
@@ -64,15 +64,13 @@
 
 ##### 5.初始化
 
-​	初始化阶段就是执行类构造器<clinit>()方法的过程。给准备阶段定义的变量赋值
+​	初始化阶段就是执行类构造器< clinit >()方法的过程。给准备阶段定义的变量赋值
 
-<clinit>()方法与**类的构造函数（**即在虚拟机视角中的实例构造器<init>()方法）不同，它不需要显 式地调用父类构造器，Java虚拟机会保证在子类的<clinit>()方法执行前，父类的<clinit>()方法已经执行 完毕。因此在Java虚拟机中第一个被执行的<clinit>()方法的类型肯定是java.lang.Object。 
+< clinit >()方法与**类的构造函数（**即在虚拟机视角中的实例构造器< init >()方法）不同，它不需要显 式地调用父类构造器，Java虚拟机会保证在子类的< clinit >()方法执行前，父类的< clinit >()方法已经执行 完毕。因此在Java虚拟机中第一个被执行的< clinit >()方法的类型肯定是java.lang.Object。 
 
 
 
 #### 什么是java的类加载器？
-
-​		老样子 写在前边，原始文档参考oracle JDK文档：[注释学习](https://docs.oracle.com/javase/tutorial/java/annotations/index.html)
 
 ​        定义：**Java类加载器**（英语：Java Classloader）是Java运行时环境（Java Runtime Environment）的一部分，负责[动态加载](https://baike.baidu.com/item/动态加载)Java类到[Java虚拟机](https://baike.baidu.com/item/Java虚拟机)的内存空间中。类通常是按需加载，即第一次使用该类时才加载。由于有了类加载器，Java运行时系统不需要知道文件与文件系统。学习类加载器时，掌握Java的委派概念很重要。
 
@@ -124,7 +122,7 @@ public static void main(String[] args) {
 
 
 
-![image-20201228141545440](classLoader.png)
+<img src="./classLoader.png" alt="image-20201228141545440" style="zoom:80%;" />
 
 // java 启动类中，可以看出  Thread.currentThread().setContextClassLoader(this.loader);   线程上下文加载器默认为System/Application classLoader
 
@@ -259,7 +257,9 @@ protected Class<?> findClass(final String name)
 
   Thread.currentThread().setContextClassLoader(this.loader);   // System/app ClassLoader
 
- 	**线程上下文加载类加载器（Thread Context ClassLoader）**这个类加载器可以通过java.lang.Thread类的setContextClassLoader()方法进行设置，如果创建线程时还未设置，他将会从父线程中继承一个，如果在应用程序的全局范围内都没有设置过的话，这个类加载器默认就是 应用程序类加载器。
+​	**线程上下文加载类加载器（Thread Context ClassLoader）**这个类加载器可以通过java.lang.Thread类的setContextClassLoader()方法进行设置，如果创建线程时还未设置，他将会从父线程中继承一个，如果在应用程序的全局范围内都没有设置过的话，这个类加载器默认就是 应用程序类加载器。
+
+
 
 ​	有了线程上下文类加载器，程序就可以做一些“舞弊”的事情了。JNDI服务使用这个线程上下文类 加载器去加载所需的SPI服务代码，这是一种**父类加载器去请求子类加载器完成类加载的行为**，这种行 为实际上是打通了双亲委派模型的层次结构来逆向使用类加载器，已经违背了双亲委派模型的一般性 原则，但也是无可奈何的事情。Java中涉及SPI的加载基本上都采用这种方式来完成，例如JNDI、 JDBC、JCE、JAXB和JBI等。不过，**当SPI的服务提供者多于一个的时候，代码就只能根据具体提供 者的类型来硬编码判断**，为了消除这种极不优雅的实现方式，在JDK 6时，JDK提供了 java.util.ServiceLoader类，**以META-INF/services中的配置信息**，辅以**责任链模式**，这才算是给SPI的加 载提供了一种相对合理的解决方案。 
 
@@ -277,7 +277,7 @@ protected Class<?> findClass(final String name)
 
 ​		随着JDK的发展，JDK9中引入了Java模块化系统（Java Platform Module System jpms）是Java的一次重要升级，为了能够实现模块化的关键目标，可配置的封装隔离机制，Java虚拟机对类加载器架构也做了相应的变动调整；
 
-​		<img src="./jdk9ClassLoader.png" style="zoom:50%;" />
+​		<img src="./jdk9ClassLoader.png" style="zoom:40%;" />
 
 ​		
 
@@ -297,7 +297,7 @@ protected Class<?> findClass(final String name)
 
 ​		解析： 对java常量池中的符号引用变更为直接引用
 
-​		初始化： 执行类的构造器 <clinit> 区别于 方法构造器，此过程主要是给类属性赋值
+​		初始化： 执行类的构造器 < clinit >  和 方法构造器，此过程主要是给类属性赋值
 
 ​		使用中：程序使用
 

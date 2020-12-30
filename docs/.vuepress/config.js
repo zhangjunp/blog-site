@@ -29,7 +29,8 @@ module.exports = {
                 "",
                 "javaGenerics",
                 "annotation",
-                "classLoader"
+                "classLoader",
+                "gc"
             ],
             "/web/": [
                 "",
